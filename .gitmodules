@@ -7,3 +7,6 @@
 [submodule "undo-tree"]
 	path = undo-tree
 	url = http://www.dr-qubit.org/git/undo-tree.git
+[submodule "org-mode"]
+	path = org-mode
+	url = git://orgmode.org/org-mode.git
