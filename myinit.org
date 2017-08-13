@@ -1,0 +1,168 @@
+Emacs configuration file
+
+* General visual configs
+#+BEGIN_SRC emacs-lisp
+  (setq inhibit-startup-message t)
+
+  (tool-bar-mode -1)
+
+  (defalias 'list-buffers 'ibuffer)
+
+  (use-package ace-window
+      :ensure t
+      :init
+      (progn
+          (global-set-key [remap other-window] 'ace-window)
+          (custom-set-faces
+          '(aw-leading-char-face
+              ((t (:inherit ace-jump-face-foreground :height 3.0))))) 
+          ))
+
+  (fset 'yes-or-no-p 'y-or-n-p)
+  (global-set-key (kbd "<f5>") 'revert-buffer)
+#+END_SRC
+  
+** Theme
+#+BEGIN_SRC emacs-lisp
+  (use-package solarized-theme
+    :ensure t
+    :config
+    (load-theme 'solarized-light))
+#+END_SRC
+* Help packages and misc
+#+BEGIN_SRC emacs-lisp
+
+  (use-package try
+    :ensure t)
+
+  (use-package which-key
+    :ensure t
+    :config
+    (which-key-mode))
+
+#+END_SRC
+  
+* Evil mode
+#+BEGIN_SRC emacs-lisp
+
+  (use-package evil
+    :ensure t
+    :config
+    (evil-mode 1))
+
+#+END_SRC
+  
+* Org mode
+  
+#+BEGIN_SRC emacs-lisp
+
+  (use-package org-bullets
+    :ensure t
+    :config
+    (progn
+      (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+
+      ))
+
+    (define-key global-map "\C-cl" 'org-store-link)
+    (define-key global-map "\C-ca" 'org-agenda)
+    (setq org-log-done t)
+
+    (setq org-directory "~/Dropbox/org")
+    (setq org-mobile-inbox-for-pull "~/Dropbox/org/flagged.org")
+    (setq org-mobile-directory "~/Dropbox/Apps/MobileOrg")
+
+    (setq initial-buffer-choice "~/Dropbox/org/home.org")
+    (org-agenda-files (quote ("~/Dropbox/org/home.org")))
+
+#+END_SRC
+  
+* Search and Swiper
+#+BEGIN_SRC 
+
+
+  ;; it looks like counsel is a requirement for swiper
+  (use-package counsel
+    :ensure t
+    )
+
+  (use-package swiper
+    :ensure try
+    :config
+    (progn
+      (ivy-mode 1)
+      (setq ivy-use-virtual-buffers t)
+      (global-set-key "\C-s" 'swiper)
+      (global-set-key (kbd "C-c C-r") 'ivy-resume)
+      (global-set-key (kbd "<f6>") 'ivy-resume)
+      (global-set-key (kbd "M-x") 'counsel-M-x)
+      (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+      (global-set-key (kbd "<f1> f") 'counsel-describe-function)
+      (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+      (global-set-key (kbd "<f1> l") 'counsel-load-library)
+      (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+      (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+      (global-set-key (kbd "C-c g") 'counsel-git)
+      (global-set-key (kbd "C-c j") 'counsel-git-grep)
+      (global-set-key (kbd "C-c k") 'counsel-ag)
+      (global-set-key (kbd "C-x l") 'counsel-locate)
+      (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
+      (define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
+      ))
+
+  (use-package avy
+    :ensure t
+    :bind ("M-s" . avy-goto-char))
+#+END_SRC
+
+ 
+* Misc todo
+  ;; (require 'package)
+
+  ;; (setq tab-width 4)
+
+  ;; (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
+  ;; (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+  ;; (add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
+
+  ;; (setq package-enable-at-startup nil)
+  ;; (package-initialize)
+
+  ;; (add-to-list 'load-path "~/.emacs.d/undo-tree")
+
+  ;; (add-to-list 'load-path "~/.emacs.d/goto-chg")
+
+  ;; (add-to-list 'load-path "~/.emacs.d/evil")
+  ;; (require 'evil)
+  ;; (evil-mode 1)
+
+  ;; (add-to-list 'load-path "~/.emacs.d/org-mode/lisp")
+  ;; (require 'org)
+  ;; (custom-set-variables
+  ;;  ;; custom-set-variables was added by Custom.
+  ;;  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;;  ;; Your init file should contain only one such instance.
+  ;;  ;; If there is more than one, they won't work right.
+  ;;  '(inhibit-startup-screen t)
+  ;;  '(initial-buffer-choice "~/Dropbox/org/home.org")
+  ;;  '(org-agenda-files (quote ("~/Dropbox/org/home.org"))))
+  ;; (custom-set-faces
+  ;;  ;; custom-set-faces was added by Custom.
+  ;;  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;;  ;; Your init file should contain only one such instance.
+  ;;  ;; If there is more than one, they won't work right.
+  ;;  )
+  (custom-set-variables
+   ;; custom-set-variables was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(package-selected-packages
+     (quote
+      (counsel ace-window org-bullets evil which-key try use-package))))
+  (custom-set-faces
+   ;; custom-set-faces was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(aw-leading-char-face ((t (:inherit ace-jump-face-foreground :height 3.0)))))

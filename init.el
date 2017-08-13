@@ -1,42 +1,32 @@
-;; (require 'package)
 
-;; (setq tab-width 4)
+(require 'package)
+(setq package-enable-at-startup nil)
+(add-to-list 'package-archives
+	     '("melpa" . "https://melpa.org/packages/"))
 
-;; (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
-;; (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-;; (add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
+(package-initialize)
 
-;; (setq package-enable-at-startup nil)
-;; (package-initialize)
+;; Bootstrap 'use-package'
 
-;; (add-to-list 'load-path "~/.emacs.d/undo-tree")
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
 
-;; (add-to-list 'load-path "~/.emacs.d/goto-chg")
-
-;; (add-to-list 'load-path "~/.emacs.d/evil")
-;; (require 'evil)
-;; (evil-mode 1)
-
-;; (add-to-list 'load-path "~/.emacs.d/org-mode/lisp")
-;; (require 'org)
-;; (define-key global-map "\C-cl" 'org-store-link)
-;; (define-key global-map "\C-ca" 'org-agenda)
-;; (setq org-log-done t)
-
-;; (setq org-directory "~/Dropbox/org")
-;; (setq org-mobile-inbox-for-pull "~/Dropbox/org/flagged.org")
-;; (setq org-mobile-directory "~/Dropbox/Apps/MobileOrg")
-;; (custom-set-variables
-;;  ;; custom-set-variables was added by Custom.
-;;  ;; If you edit it by hand, you could mess it up, so be careful.
-;;  ;; Your init file should contain only one such instance.
-;;  ;; If there is more than one, they won't work right.
-;;  '(inhibit-startup-screen t)
-;;  '(initial-buffer-choice "~/Dropbox/org/home.org")
-;;  '(org-agenda-files (quote ("~/Dropbox/org/home.org"))))
-;; (custom-set-faces
-;;  ;; custom-set-faces was added by Custom.
-;;  ;; If you edit it by hand, you could mess it up, so be careful.
-;;  ;; Your init file should contain only one such instance.
-;;  ;; If there is more than one, they won't work right.
-;;  )
+(org-babel-load-file (expand-file-name "~/.emacs.d/myinit.org"))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default)))
+ '(package-selected-packages
+   (quote
+    (solarized-theme which-key use-package try org-bullets evil counsel ace-window))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(aw-leading-char-face ((t (:inherit ace-jump-face-foreground :height 3.0)))))
