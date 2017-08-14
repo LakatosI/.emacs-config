@@ -27,7 +27,7 @@ Emacs configuration file
   (use-package solarized-theme
     :ensure t
     :config
-    (load-theme 'solarized-light))
+    (load-theme 'solarized-light t))
 #+END_SRC
 * Help packages and misc
 #+BEGIN_SRC emacs-lisp
