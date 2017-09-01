@@ -77,6 +77,22 @@ Emacs configuration file
 
 #+END_SRC
   
+* Clojure settings
+** Install CIDER
+#+BEGIN_SRC emacs-lisp
+  (use-package cider
+    :ensure t)
+#+END_SRC
+
+#+RESULTS:
+** Install paredit
+#+BEGIN_SRC emacs-lisp
+  (use-package paredit
+    :ensure t)
+#+END_SRC
+
+#+RESULTS:
+
 * Search and Swiper
 #+BEGIN_SRC 
 

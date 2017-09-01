@@ -4,3 +4,6 @@ eshell*
 elpa*
 myinit.el
 .org-id-locations
+*#
+bin/
+network-security.data
