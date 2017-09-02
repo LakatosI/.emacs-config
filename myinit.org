@@ -93,6 +93,13 @@ Emacs configuration file
 
 #+RESULTS:
 
+** Environment path
+   Set up emacs PATH to correctly point to leiningen distribution
+#+BEGIN_SRC emacs-lisp
+  (let ((my-path (expand-file-name "~/bin")))
+  (setenv "PATH" (concat my-path ":" (getenv "PATH")))
+  (add-to-list 'exec-path my-path)) 
+#+END_SRC
 * Search and Swiper
 #+BEGIN_SRC 
 
