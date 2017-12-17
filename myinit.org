@@ -6,6 +6,8 @@ Emacs configuration file
 
   (tool-bar-mode -1)
 
+  (setq tab-width 4)
+
   (defalias 'list-buffers 'ibuffer)
 
   (use-package ace-window
@@ -44,14 +46,14 @@ Emacs configuration file
   
 * Evil mode
 #+BEGIN_SRC emacs-lisp
-
+  (setq evil-want-C-i-jump nil)
   (use-package evil
     :ensure t
     :config
     (evil-mode 1))
 
 #+END_SRC
-  
+
 * Org mode
   
 #+BEGIN_SRC emacs-lisp
@@ -78,167 +80,9 @@ Emacs configuration file
     (setq org-agenda-files (quote ("~/Dropbox/org/home.org")))
 
 #+END_SRC
-  
-* Clojure settings
-** Install CIDER
-#+BEGIN_SRC emacs-lisp
-  (use-package cider
-    :ensure t)
-#+END_SRC
 
 #+RESULTS:
-** Install paredit
-#+BEGIN_SRC emacs-lisp
-  (use-package paredit
-    :ensure t)
-#+END_SRC
-
-#+RESULTS:
-
-** Environment path
-   Set up emacs PATH to correctly point to leiningen distribution
-#+BEGIN_SRC emacs-lisp
-  (let ((my-path (expand-file-name "~/bin")))
-  (setenv "PATH" (concat my-path ":" (getenv "PATH")))
-  (add-to-list 'exec-path my-path)) 
-#+END_SRC
-* Search and Swiper
-#+BEGIN_SRC 
-
-
-  ;; it looks like counsel is a requirement for swiper
-  (use-package counsel
-    :ensure t
-    )
-
-  (use-package swiper
-    :ensure try
-    :config
-    (progn
-      (ivy-mode 1)
-      (setq ivy-use-virtual-buffers t)
-      (global-set-key "\C-s" 'swiper)
-      (global-set-key (kbd "C-c C-r") 'ivy-resume)
-      (global-set-key (kbd "<f6>") 'ivy-resume)
-      (global-set-key (kbd "M-x") 'counsel-M-x)
-      (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-      (global-set-key (kbd "<f1> f") 'counsel-describe-function)
-      (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
-      (global-set-key (kbd "<f1> l") 'counsel-load-library)
-      (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
-      (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
-      (global-set-key (kbd "C-c g") 'counsel-git)
-      (global-set-key (kbd "C-c j") 'counsel-git-grep)
-      (global-set-key (kbd "C-c k") 'counsel-ag)
-      (global-set-key (kbd "C-x l") 'counsel-locate)
-      (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
-      (define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
-      ))
-
-  (use-package avy
-    :ensure t
-    :bind ("M-s" . avy-goto-char))
-#+END_SRC
+| ~/Dropbox/org/home.org |
 
   
-* Latex editing evironment 
   
-** Environment path
-   Set up emacs PATH to correctly point to texlive distribution
-#+BEGIN_SRC emacs-lisp
-  (let ((my-path (expand-file-name "/usr/local/bin:/usr/local/texlive/2017/bin/x86_64-darwin")))
-  (setenv "PATH" (concat my-path ":" (getenv "PATH")))
-  (add-to-list 'exec-path my-path)) 
-#+END_SRC
-
-** Auctex
-#+BEGIN_SRC emacs-lisp
-  (use-package auctex-latexmk
-    :ensure t
-    :config
-    (progn
-      (setq TeX-auto-save t)
-      (setq TeX-parse-self t)
-      (setq-default TeX-master nil)
-      (add-hook 'LaTeX-mode-hook 'visual-line-mode)
-      (add-hook 'LaTeX-mode-hook 'flyspell-mode)
-      (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
-      (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
-      (setq reftex-plug-into-AUCTeX t)
-      (setq TeX-PDF-mode t)
-      
-      ;; Use Skim as viewer, enable source <-> PDF sync
-      ;; make latexmk available via C-c C-c
-      ;; Note: SyncTeX is setup via ~/.latexmkrc (see below)
-      (add-hook 'LaTeX-mode-hook (lambda ()
-                                   (push
-                                    '("latexmk" "latexmk -pdf %s" TeX-run-TeX nil t
-                                      :help "Run latexmk on file")
-                                    TeX-command-list)))
-      (add-hook 'TeX-mode-hook '(lambda () (setq TeX-command-default "latexmk")))
-      
-      ;; use Skim as default pdf viewer
-      ;; Skim's displayline is used for forward search (from .tex to .pdf)
-      ;; option -b highlights the current line; option -g opens Skim in the background  
-      (setq TeX-view-program-selection '((output-pdf "PDF Viewer")))
-      (setq TeX-view-program-list
-            '(("PDF Viewer" "/Applications/Skim.app/Contents/SharedSupport/displayline -b -g %n %o %b")))
-      
-      ))
-#+END_SRC
-
-#+RESULTS:
-: t
-
-   
-  
-* Misc todo
-  ;; (require 'package)
-
-  ;; (setq tab-width 4)
-
-  ;; (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
-  ;; (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-  ;; (add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
-
-  ;; (setq package-enable-at-startup nil)
-  ;; (package-initialize)
-
-  ;; (add-to-list 'load-path "~/.emacs.d/undo-tree")
-
-  ;; (add-to-list 'load-path "~/.emacs.d/goto-chg")
-
-  ;; (add-to-list 'load-path "~/.emacs.d/evil")
-  ;; (require 'evil)
-  ;; (evil-mode 1)
-
-  ;; (add-to-list 'load-path "~/.emacs.d/org-mode/lisp")
-  ;; (require 'org)
-  ;; (custom-set-variables
-  ;;  ;; custom-set-variables was added by Custom.
-  ;;  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;;  ;; Your init file should contain only one such instance.
-  ;;  ;; If there is more than one, they won't work right.
-  ;;  '(inhibit-startup-screen t)
-  ;;  '(initial-buffer-choice "~/Dropbox/org/home.org")
-  ;; (custom-set-faces
-  ;;  ;; custom-set-faces was added by Custom.
-  ;;  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;;  ;; Your init file should contain only one such instance.
-  ;;  ;; If there is more than one, they won't work right.
-  ;;  )
-  (custom-set-variables
-   ;; custom-set-variables was added by Custom.
-   ;; If you edit it by hand, you could mess it up, so be careful.
-   ;; Your init file should contain only one such instance.
-   ;; If there is more than one, they won't work right.
-   '(package-selected-packages
-     (quote
-      (counsel ace-window org-bullets evil which-key try use-package))))
-  (custom-set-faces
-   ;; custom-set-faces was added by Custom.
-   ;; If you edit it by hand, you could mess it up, so be careful.
-   ;; Your init file should contain only one such instance.
-   ;; If there is more than one, they won't work right.
-   '(aw-leading-char-face ((t (:inherit ace-jump-face-foreground :height 3.0)))))
-   
