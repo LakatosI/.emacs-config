@@ -31,6 +31,18 @@ Emacs configuration file
     :config
     (load-theme 'solarized-light t))
 #+END_SRC
+* Environments and paths
+#+BEGIN_SRC emacs-lisp
+  (use-package exec-path-from-shell
+    :ensure t
+    :config (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize)))
+
+#+END_SRC
+
+#+RESULTS:
+: t
+
 * Help packages and misc
 #+BEGIN_SRC emacs-lisp
 
@@ -85,4 +97,19 @@ Emacs configuration file
 | ~/Dropbox/org/home.org |
 
   
+  
+* Rust mode
+#+BEGIN_SRC emacs-lisp
+
+  (use-package rust-mode
+    :ensure t
+    :config
+    (progn
+      (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
+      ))
+#+END_SRC
+
+#+RESULTS:
+: t
+
   
