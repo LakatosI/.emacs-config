@@ -88,7 +88,7 @@ Emacs configuration file
     (setq org-mobile-inbox-for-pull "~/Dropbox/org/flagged.org")
     (setq org-mobile-directory "~/Dropbox/Apps/MobileOrg")
 
-    (setq initial-buffer-choice "~/Dropbox/org/home.org")
+;;; (setq initial-buffer-choice "~/Dropbox/org/home.org")
     (setq org-agenda-files (quote ("~/Dropbox/org/home.org")))
 
 #+END_SRC
