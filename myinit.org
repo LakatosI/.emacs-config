@@ -40,8 +40,15 @@ Emacs configuration file
 
 #+END_SRC
 
+** Ansi-term for Windows
+   
+#+BEGIN_SRC emacs-lisp
+  (setq explicit-bash.exe-args '("--noediting" "--login" "-i"))
+  (add-hook 'comint-output-filter-functions 'comint-strip-ctrl-m)
+#+END_SRC
+
 #+RESULTS:
-: t
+| comint-strip-ctrl-m | ansi-color-process-output | comint-postoutput-scroll-to-bottom | comint-watch-for-password-prompt |
 
 * Help packages and misc
 #+BEGIN_SRC emacs-lisp
