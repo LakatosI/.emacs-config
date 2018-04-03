@@ -50,6 +50,16 @@ Emacs configuration file
 #+RESULTS:
 | comint-strip-ctrl-m | ansi-color-process-output | comint-postoutput-scroll-to-bottom | comint-watch-for-password-prompt |
 
+  
+** Recent files
+   
+#+BEGIN_SRC emacs-lisp
+  (recentf-mode 1)
+  (setq recentf-max-menu-items 25)
+  (global-set-key "\C-x\ \C-r" 'recentf-open-files)
+
+#+END_SRC
+
 * Help packages and misc
 #+BEGIN_SRC emacs-lisp
 
@@ -62,6 +72,8 @@ Emacs configuration file
     (which-key-mode))
 
 #+END_SRC
+  
+
   
 * Evil mode
 #+BEGIN_SRC emacs-lisp
@@ -113,6 +125,19 @@ Emacs configuration file
     :config
     (progn
       (ivy-mode 1)))
+#+END_SRC
+
+#+RESULTS:
+: t
+
+  
+* Erlang mode
+#+BEGIN_SRC elisp
+  (use-package erlang
+    :ensure t
+    :config
+    (progn
+      (require 'erlang-start)))
 #+END_SRC
 
 #+RESULTS:
