@@ -131,18 +131,6 @@ Emacs configuration file
 
   
 * Erlang mode
-#+BEGIN_SRC elisp
-  (use-package erlang
-    :ensure t
-    :config
-    (progn
-      (require 'erlang-start)))
-#+END_SRC
-
-#+RESULTS:
-: t
-
-* Erlang mode
 #+BEGIN_SRC emacs-lisp
   (defun my-erlang-mode-config ()
     "Custom bindings for erlang mode"
