@@ -115,7 +115,6 @@ Emacs configuration file
 #+RESULTS:
 | ~/Dropbox/org/home.org |
 
-  
 * Ivy mode
 
 #+BEGIN_SRC emacs-lisp
@@ -143,3 +142,20 @@ Emacs configuration file
 #+RESULTS:
 : t
 
+* Erlang mode
+#+BEGIN_SRC emacs-lisp
+  (defun my-erlang-mode-config ()
+    "Custom bindings for erlang mode"
+    (local-set-key (kbd "<f1>") 'erlang-compile)
+    )
+
+  (use-package erlang
+    :ensure t
+    :config
+    (progn
+      (add-hook 'erlang-mode-hook 'my-erlang-mode-config)
+      ))
+#+END_SRC
+
+#+RESULTS:
+: t
