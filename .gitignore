@@ -7,3 +7,6 @@ myinit.el
 *#
 bin/
 network-security.data
+init.el
+recentf
+projectile-bookmarks.eld

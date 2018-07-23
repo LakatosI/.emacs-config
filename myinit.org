@@ -1,36 +1,82 @@
 Emacs configuration file
 
+Based on ideas taken from multiple sources, last one being https://huytd.github.io/emacs-from-scratch.html
+
 * General visual configs
+** Minimal UI
 #+BEGIN_SRC emacs-lisp
-  (setq inhibit-startup-message t)
-
-  (tool-bar-mode -1)
-
-  (setq tab-width 4)
-
-  (defalias 'list-buffers 'ibuffer)
-
-  (use-package ace-window
-      :ensure t
-      :init
-      (progn
-          (global-set-key [remap other-window] 'ace-window)
-          (custom-set-faces
-          '(aw-leading-char-face
-              ((t (:inherit ace-jump-face-foreground :height 3.0))))) 
-          ))
-
-  (fset 'yes-or-no-p 'y-or-n-p)
-  (global-set-key (kbd "<f5>") 'revert-buffer)
+  (scroll-bar-mode -1)
+  (tool-bar-mode   -1)
+  (tooltip-mode    -1)
+  (menu-bar-mode   -1)
 #+END_SRC
-  
+
+#+RESULTS:
+
+** Tab widths
+   
+#+BEGIN_SRC emacs-lisp
+  (setq tab-width 4)
+#+END_SRC
+
+#+RESULTS:
+: 4
+
+** Font and frame size
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'default-frame-alist '(font . "mononoki-12"))
+  (add-to-list 'default-frame-alist '(height . 24))
+  (add-to-list 'default-frame-alist '(width . 80))
+#+END_SRC
+
+#+RESULTS:
+: ((width . 80) (height . 24) (font . mononoki-12) (vertical-scroll-bars))
+
 ** Theme
 #+BEGIN_SRC emacs-lisp
-  (use-package solarized-theme
-    :ensure t
-    :config
-    (load-theme 'solarized-light t))
+  ;; Theme
+  (use-package doom-themes
+	:ensure t
+	:config
+	(load-theme 'doom-one t))
 #+END_SRC
+
+** Match titlebar color on MacOS
+
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+  (add-to-list 'default-frame-alist '(ns-appearance . dark))
+  (setq ns-use-proxy-icon  nil)
+  (setq frame-title-format nil)
+#+END_SRC
+
+#+RESULTS:
+
+** NeoTree and Icons
+#+BEGIN_SRC emacs-lisp
+  ;; All The Icons
+  (use-package all-the-icons :ensure t)
+
+  ;; NeoTree
+  (use-package neotree
+	:ensure t
+	:init
+	(setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
+#+END_SRC
+
+#+RESULTS:
+
+** Misc
+
+   Show matching parens
+#+BEGIN_SRC emacs-lisp
+  (setq show-paren-delay 0)
+  (show-paren-mode 1)
+#+END_SRC
+
+#+RESULTS:
+: t
+
 * Environments and paths
 #+BEGIN_SRC emacs-lisp
   (use-package exec-path-from-shell
@@ -64,16 +110,73 @@ Emacs configuration file
 #+BEGIN_SRC emacs-lisp
 
   (use-package try
-    :ensure t)
+	:ensure t)
 
   (use-package which-key
-    :ensure t
-    :config
-    (which-key-mode))
-
+	:ensure t
+	:init
+	(setq which-key-separator " ")
+	(setq which-key-prefix-prefix "+")
+	:config
+	(which-key-mode 1))
 #+END_SRC
-  
 
+#+RESULTS:
+: t
+  
+** Misc settings
+#+BEGIN_SRC emacs-lisp
+  (defalias 'list-buffers 'ibuffer)
+
+  (use-package ace-window
+      :ensure t
+      :init
+      (progn
+          (global-set-key [remap other-window] 'ace-window)
+          (custom-set-faces
+          '(aw-leading-char-face
+              ((t (:inherit ace-jump-face-foreground :height 3.0))))) 
+          ))
+
+  (fset 'yes-or-no-p 'y-or-n-p)
+  (global-set-key (kbd "<f5>") 'revert-buffer)
+#+END_SRC
+
+#+RESULTS:
+: revert-buffer
+
+
+* 'Spacemacs' Keybindings
+  
+#+BEGIN_SRC emacs-lisp
+  ;; Custom keybinding
+  (use-package general
+	:ensure t
+	:config (general-define-key
+	:states '(normal visual insert emacs)
+	:prefix "SPC"
+	:non-normal-prefix "M-SPC"
+	;; "/"   '(counsel-rg :which-key "ripgrep") ; You'll need counsel package for this
+	"TAB" '(switch-to-prev-buffer :which-key "previous buffer")
+	"SPC" '(helm-M-x :which-key "M-x")
+	"pf"  '(helm-find-files :which-key "find files")
+	;; Buffers
+	"bb"  '(helm-buffers-list :which-key "buffers list")
+	;; Window
+	"wl"  '(windmove-right :which-key "move right")
+	"wh"  '(windmove-left :which-key "move left")
+	"wk"  '(windmove-up :which-key "move up")
+	"wj"  '(windmove-down :which-key "move bottom")
+	"w/"  '(split-window-right :which-key "split right")
+	"w-"  '(split-window-below :which-key "split bottom")
+	"wx"  '(delete-window :which-key "delete window")
+	;; Others
+	"at"  '(ansi-term :which-key "open terminal")
+  ))
+#+END_SRC
+
+#+RESULTS:
+: t
   
 * Evil mode
 #+BEGIN_SRC emacs-lisp
@@ -84,6 +187,19 @@ Emacs configuration file
     (evil-mode 1))
 
 #+END_SRC
+
+** Evil-Escape mode
+#+BEGIN_SRC emacs-lisp
+  (use-package evil-escape
+	:ensure t
+	:init
+	(setq-default evil-escape-key-sequence "jk")
+	:config
+	(evil-escape-mode 1))
+#+END_SRC
+
+#+RESULTS:
+: t
 
 * Org mode
   
@@ -115,21 +231,47 @@ Emacs configuration file
 #+RESULTS:
 | ~/Dropbox/org/home.org |
 
-* Ivy mode
-
+* Helm mode
+Note: Try to learn and use Helm mode for now. Switch to ivy when comfortable
 #+BEGIN_SRC emacs-lisp
+  (use-package helm
+	:ensure t
+	:init
+	(setq helm-M-x-fuzzy-match t
+	helm-mode-fuzzy-match t
+	helm-buffers-fuzzy-matching t
+	helm-recentf-fuzzy-match t
+	helm-locate-fuzzy-match t
+	helm-semantic-fuzzy-match t
+	helm-imenu-fuzzy-match t
+	helm-completion-in-region-fuzzy-match t
+	helm-candidate-number-list 150
+	helm-split-window-in-side-p t
+	helm-move-to-line-cycle-in-source t
+	helm-echo-input-in-header-line t
+	helm-autoresize-max-height 0
+	helm-autoresize-min-height 20)
+	:config
+	(helm-mode 1))
+#+END_SRC
 
-  (use-package counsel
-    :ensure t
-    :config
-    (progn
-      (ivy-mode 1)))
+#+RESULTS:
+: t
+ 
+
+* Project management
+#+BEGIN_SRC emacs-lisp
+  (use-package projectile
+	:ensure t
+	:init
+	(setq projectile-require-project-root nil)
+	:config
+	(projectile-mode 1))
 #+END_SRC
 
 #+RESULTS:
 : t
 
-  
 * Erlang mode
 #+BEGIN_SRC emacs-lisp
   (defun my-erlang-mode-config ()
@@ -147,3 +289,12 @@ Emacs configuration file
 
 #+RESULTS:
 : t
+
+* Perl 6 Mode
+
+#+BEGIN_SRC emacs-lisp
+  (use-package perl6-mode
+    :ensure t)
+#+END_SRC
+
+#+RESULTS:
