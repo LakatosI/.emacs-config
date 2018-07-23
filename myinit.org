@@ -5,7 +5,6 @@ Based on ideas taken from multiple sources, last one being https://huytd.github.
 * General visual configs
 ** Minimal UI
 #+BEGIN_SRC emacs-lisp
-  (scroll-bar-mode -1)
   (tool-bar-mode   -1)
   (tooltip-mode    -1)
   (menu-bar-mode   -1)
