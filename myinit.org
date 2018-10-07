@@ -109,19 +109,21 @@ Based on ideas taken from multiple sources, last one being https://huytd.github.
 #+BEGIN_SRC emacs-lisp
 
   (use-package try
-	:ensure t)
+        :ensure t)
 
   (use-package which-key
-	:ensure t
-	:init
-	(setq which-key-separator " ")
-	(setq which-key-prefix-prefix "+")
-	:config
-	(which-key-mode 1))
+        :ensure t
+        :init
+        (setq which-key-separator " ")
+        (setq which-key-prefix-prefix "+")
+        :config
+        (which-key-mode 1))
+
+  (use-package sudo-edit
+    :ensure t)
 #+END_SRC
 
 #+RESULTS:
-: t
   
 ** Misc settings
 #+BEGIN_SRC emacs-lisp
