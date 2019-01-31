@@ -2,12 +2,62 @@
 #+AUTHOR: Istvan Lakatos
 #+PROPERTY: header-args :tangle yes
 
-Emacs configuration file
 
-Based on ideas taken from multiple sources, last one being https://huytd.github.io/emacs-from-scratch.html
+* Emacs configuration file
+** About
+My Emacs configuration files is written using Org mode, 
+based on ideas taken from multiple sources:
+  - https://huytd.github.io/emacs/emacs-from-scratch.html
+  - https://github.com/larstvei/dot-emacs
+    
+** Meta
+When this configuration is loaded for the first time, an initial *init.el* file is loaded, containing
+
+#+BEGIN_SRC emacs-lisp :tangle no
+;; This file replaces itself with the actual configuration at first run.
+;; We can't tangle without org!
+(require 'org)
+;; Open the configuration
+(find-file (concat user-emacs-directory "init.org"))
+;; tangle it
+(org-babel-tangle)
+;; load it
+(load-file (concat user-emacs-directory "init.el"))
+;; finally byte-compile it
+(byte-compile-file (concat user-emacs-directory "init.el"))
+
+#+END_SRC
+
+This overwrites *init.el* with the tangled version of this Org file. In order for this new *init.el* to
+not polute git status calls, one can call 
+#+BEGIN_SRC bash :tangle no
+  git update-index --assume-unchanged init.el
+#+END_SRC
+
+Tracking can be reenabled at a later time with:
+#+BEGIN_SRC bash :tangle no
+  git update-index --no-assume-unchanged init.el
+#+END_SRC
+
+** Reloading settings
+   
+A hook can be installed to automatically tangle and byte-compile this Org file. 
+#+BEGIN_SRC emacs-lisp
+  (defun tangle-init ()
+    "If the current buffer is 'init.org' the code-blocks are
+  tangled, and the tangled file is compiled."
+    (when (equal (buffer-file-name)
+		 (expand-file-name (concat user-emacs-directory "init.org")))
+      ;; Avoid running hooks when tangling.
+      (let ((prog-mode-hook nil))
+	(org-babel-tangle)
+	(byte-compile-file (concat user-emacs-directory "init.el")))))
+
+  (add-hook 'after-save-hook 'tangle-init)
+#+END_SRC
 
 * Basic setup
-
+  We set up here MELPA and get *use-package* for later use.
 #+BEGIN_SRC emacs-lisp
   (require 'package)
   (setq package-enable-at-startup nil)
@@ -24,6 +74,36 @@ Based on ideas taken from multiple sources, last one being https://huytd.github.
 	(package-install 'use-package))
 #+END_SRC
 
+* Environments and paths
+#+BEGIN_SRC emacs-lisp
+  (use-package exec-path-from-shell
+    :ensure t
+    :config
+    (when (memq window-system '(mac ns x))
+      (exec-path-from-shell-initialize)))
+  (require 'exec-path-from-shell)
+
+  (when (eq system-type 'darwin)
+    (setq mac-command-modifier 'meta)
+    (setq mac-option-modifier nil))
+#+END_SRC
+
+** Ansi-term for Windows
+   
+#+BEGIN_SRC emacs-lisp
+  (setq explicit-bash.exe-args '("--noediting" "--login" "-i"))
+  (add-hook 'comint-output-filter-functions 'comint-strip-ctrl-m)
+#+END_SRC
+
+** Recent files
+   
+#+BEGIN_SRC emacs-lisp
+  (recentf-mode 1)
+  (setq recentf-max-menu-items 25)
+  (global-set-key "\C-x\ \C-r" 'recentf-open-files)
+
+#+END_SRC
+
 * General visual configs
 ** Minimal UI
 #+BEGIN_SRC emacs-lisp
@@ -34,24 +114,12 @@ Based on ideas taken from multiple sources, last one being https://huytd.github.
 
 #+RESULTS:
 
-** Tab widths
-   
-#+BEGIN_SRC emacs-lisp
-  (setq tab-width 4)
-#+END_SRC
-
-#+RESULTS:
-: 4
-
 ** Font and frame size
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'default-frame-alist '(font . "mononoki-12"))
   (add-to-list 'default-frame-alist '(height . 24))
   (add-to-list 'default-frame-alist '(width . 80))
 #+END_SRC
-
-#+RESULTS:
-: ((width . 80) (height . 24) (font . mononoki-12) (vertical-scroll-bars))
 
 ** Theme
 #+BEGIN_SRC emacs-lisp
@@ -73,20 +141,6 @@ Based on ideas taken from multiple sources, last one being https://huytd.github.
 
 #+RESULTS:
 
-** NeoTree and Icons (disabled)
-#+BEGIN_SRC emacs-lisp-disabled
-  ;; All The Icons
-  (use-package all-the-icons :ensure t)
-
-  ;; NeoTree
-  (use-package neotree
-	:ensure t
-	:init
-	(setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
-#+END_SRC
-
-#+RESULTS:
-
 ** Misc
 
    Show matching parens
@@ -98,51 +152,23 @@ Based on ideas taken from multiple sources, last one being https://huytd.github.
 #+RESULTS:
 : t
 
-* Environments and paths
-#+BEGIN_SRC emacs-lisp
-  (use-package exec-path-from-shell
-    :ensure t
-    :config (when (memq window-system '(mac ns x))
-    (exec-path-from-shell-initialize)))
-
-#+END_SRC
-
-** Ansi-term for Windows
-   
-#+BEGIN_SRC emacs-lisp
-  (setq explicit-bash.exe-args '("--noediting" "--login" "-i"))
-  (add-hook 'comint-output-filter-functions 'comint-strip-ctrl-m)
-#+END_SRC
-
-#+RESULTS:
-| comint-strip-ctrl-m | ansi-color-process-output | comint-postoutput-scroll-to-bottom | comint-watch-for-password-prompt |
-
-  
-** Recent files
-   
-#+BEGIN_SRC emacs-lisp
-  (recentf-mode 1)
-  (setq recentf-max-menu-items 25)
-  (global-set-key "\C-x\ \C-r" 'recentf-open-files)
-
-#+END_SRC
-
 * Help packages and misc
 #+BEGIN_SRC emacs-lisp
 
-  (use-package try
-        :ensure t)
+   (use-package try
+	 :ensure t)
 
   (use-package which-key
-        :ensure t
-        :init
-        (setq which-key-separator " ")
-        (setq which-key-prefix-prefix "+")
-        :config
-        (which-key-mode 1))
+    :ensure t
+    :init
+    (setq which-key-separator " ")
+    (setq which-key-prefix-prefix "+")
+    (which-key-mode 1))
+  (require 'which-key)
 
-  (use-package sudo-edit
-    :ensure t)
+
+   (use-package sudo-edit
+     :ensure t)
 #+END_SRC
 
 #+RESULTS:
@@ -169,43 +195,6 @@ Based on ideas taken from multiple sources, last one being https://huytd.github.
 : revert-buffer
 
 
-* 'Spacemacs' Keybindings
-  
-#+BEGIN_SRC emacs-lisp
-  ;; Custom keybinding
-  (use-package general
-        :ensure t
-        :config (general-define-key
-        :states '(normal visual insert emacs)
-        :prefix "SPC"
-        :non-normal-prefix "M-SPC"
-        ;; "/"   '(counsel-rg :which-key "ripgrep") ; You'll need counsel package for this
-        "TAB" '(switch-to-prev-buffer :which-key "previous buffer")
-        "SPC" '(helm-M-x :which-key "M-x")
-        "ff"  '(helm-find-files :which-key "find files")
-        ;; Buffers
-        "bb"  '(helm-buffers-list :which-key "buffers list")
-        "bx"  '(kill-buffer :which-key "kill buffer")
-        ;; Window
-        "wl"  '(windmove-right :which-key "move right")
-        "wh"  '(windmove-left :which-key "move left")
-        "wk"  '(windmove-up :which-key "move up")
-        "wj"  '(windmove-down :which-key "move bottom")
-        "w/"  '(split-window-right :which-key "split right")
-        "w-"  '(split-window-below :which-key "split bottom")
-        "wx"  '(delete-window :which-key "delete window")
-        ;; Others
-        "ta"  '(ansi-term :which-key "open terminal")
-        "te"  '(eshell :which-key "open eshell")
-        "hm"  '(helm-mini :which-key "Helm mini") 
-  ))
-#+END_SRC
-
-#+RESULTS:
-=t
-==t
-==t
-=  
 * Evil mode
 #+BEGIN_SRC emacs-lisp
   (setq evil-want-C-i-jump nil)
@@ -219,11 +208,12 @@ Based on ideas taken from multiple sources, last one being https://huytd.github.
 ** Evil-Escape mode
 #+BEGIN_SRC emacs-lisp
   (use-package evil-escape
-	:ensure t
-	:init
-	(setq-default evil-escape-key-sequence "jk")
-	:config
-	(evil-escape-mode 1))
+    :ensure t
+    :init
+    (setq-default evil-escape-key-sequence "jk")
+    :config
+    (evil-escape-mode 1))
+  (require 'evil-escape)
 #+END_SRC
 
 #+RESULTS:
@@ -232,15 +222,14 @@ Based on ideas taken from multiple sources, last one being https://huytd.github.
 * Org mode
   
 ** Org bullets mode (disabled)
-#+BEGIN_SRC emacs-lisp-disabled
+#+BEGIN_SRC emacs-lisp
 
   (use-package org-bullets
     :ensure t
     :config
-    (progn
-      (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-
-      ))
+    (add-hook 'org-mode-hook (lambda ()
+			       (org-bullets-mode 1))))
+  (require 'org-bullets)
 #+END_SRC
   
 ** Configs
@@ -264,72 +253,4 @@ Based on ideas taken from multiple sources, last one being https://huytd.github.
 #+RESULTS:
 | ~/Dropbox/org/home.org |
 
-* Helm mode 
-Note: Try to learn and use Helm mode for now. Switch to ivy when comfortable
-Update: Helm seems too slow for emacs running on remote server. Switching to ivy.
-#+BEGIN_SRC emacs-lisp
-  (use-package helm
-	:ensure t
-	:init
-	(setq helm-M-x-fuzzy-match t
-	helm-mode-fuzzy-match t
-	helm-buffers-fuzzy-matching t
-	helm-recentf-fuzzy-match t
-	helm-locate-fuzzy-match t
-	helm-semantic-fuzzy-match t
-	helm-imenu-fuzzy-match t
-	helm-completion-in-region-fuzzy-match t
-	helm-candidate-number-list 150
-	helm-split-window-in-side-p t
-	helm-move-to-line-cycle-in-source t
-	helm-echo-input-in-header-line t
-	helm-autoresize-max-height 0
-	helm-autoresize-min-height 20)
-	:config
-	(helm-mode 1))
-#+END_SRC
 
-#+RESULTS:
-: t
-
-
-* Project management (disabled)
-#+BEGIN_SRC emacs-lisp-disabled
-  (use-package projectile
-        :ensure t
-        :init
-        (progn (setq projectile-require-project-root nil)
-               (setq projectile-mode-line " Projectile"))
-        :config
-        (projectile-mode 1))
-#+END_SRC
-
-#+RESULTS:
-: t
-
-* Erlang mode
-#+BEGIN_SRC emacs-lisp
-  (defun my-erlang-mode-config ()
-    "Custom bindings for erlang mode"
-    (local-set-key (kbd "<f1>") 'erlang-compile)
-    )
-
-  (use-package erlang
-    :ensure t
-    :config
-    (progn
-      (add-hook 'erlang-mode-hook 'my-erlang-mode-config)
-      ))
-#+END_SRC
-
-#+RESULTS:
-: t
-
-* Perl 6 Mode
-
-#+BEGIN_SRC emacs-lisp
-  (use-package perl6-mode
-    :ensure t)
-#+END_SRC
-
-#+RESULTS:

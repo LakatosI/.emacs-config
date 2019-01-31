@@ -1,12 +1,6 @@
-auto-save-list*
-eshell*
-*~
-elpa*
-myinit.el
-.org-id-locations
-*#
-bin/
-network-security.data
-init.el
+*.elc
+elpa
+auto-save-list/
 recentf
-projectile-bookmarks.eld
+recentf~
+backups/
