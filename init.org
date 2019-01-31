@@ -1,6 +1,28 @@
+#+TITLE: Emacs configuration file
+#+AUTHOR: Istvan Lakatos
+#+PROPERTY: header-args :tangle yes
+
 Emacs configuration file
 
 Based on ideas taken from multiple sources, last one being https://huytd.github.io/emacs-from-scratch.html
+
+* Basic setup
+
+#+BEGIN_SRC emacs-lisp
+  (require 'package)
+  (setq package-enable-at-startup nil)
+  (setq package-archives '(("org"   . "http://orgmode.org/elpa/")
+			   ("gnu"   . "http://elpa.gnu.org/packages/")
+			   ("melpa" . "https://melpa.org/packages/")))
+
+  (package-initialize)
+
+  ;; Bootstrap 'use-package'
+
+  (unless (package-installed-p 'use-package)
+	(package-refresh-contents)
+	(package-install 'use-package))
+#+END_SRC
 
 * General visual configs
 ** Minimal UI
