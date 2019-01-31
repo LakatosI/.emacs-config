@@ -3,8 +3,9 @@
 #+PROPERTY: header-args :tangle yes
 
 
-* Emacs configuration file
-** About
+* About
+   - State "TODO"       from "WAIT"       [2019-02-01 Fri 00:00]
+   - State "DONE"       from "CANCELED"   [2019-02-01 Fri 00:00]
 My Emacs configuration files is written using Org mode, 
 based on ideas taken from multiple sources:
   - https://huytd.github.io/emacs/emacs-from-scratch.html
@@ -221,7 +222,7 @@ A hook can be installed to automatically tangle and byte-compile this Org file.
 
 * Org mode
   
-** Org bullets mode (disabled)
+** Org bullets mode 
 #+BEGIN_SRC emacs-lisp
 
   (use-package org-bullets
@@ -234,23 +235,61 @@ A hook can be installed to automatically tangle and byte-compile this Org file.
   
 ** Configs
 #+BEGIN_SRC emacs-lisp
-    (setq org-todo-keywords
-    '((sequence "TODO(t)" "WAIT(w@/!)" "|" "DONE(d!)" "CANCELED(c@)")))
+  (setq org-todo-keywords
+	'((sequence "TODO(t)" "WAIT(w@/!)" "|" "DONE(d!)" "CANCELED(c@)")))
 
-    (define-key global-map "\C-cl" 'org-store-link)
-    (define-key global-map "\C-ca" 'org-agenda)
-    (setq org-log-done t)
+  (define-key global-map "\C-cl" 'org-store-link)
+  (define-key global-map "\C-ca" 'org-agenda)
+  (setq org-log-done t)
 
-    (setq org-directory "~/Dropbox/org")
-    (setq org-mobile-inbox-for-pull "~/Dropbox/org/flagged.org")
-    (setq org-mobile-directory "~/Dropbox/Apps/MobileOrg")
+  (setq org-directory "~/org")
+  (setq org-mobile-inbox-for-pull "~/org/flagged.org")
+  (setq org-mobile-directory "~/Dropbox/Apps/MobileOrg")
 
-;;; (setq initial-buffer-choice "~/Dropbox/org/home.org")
-    (setq org-agenda-files (quote ("~/Dropbox/org/home.org")))
+  ;;; (setq initial-buffer-choice "~/Dropbox/org/home.org")
+  (setq org-agenda-files (quote ("~/org/home.org")))
 
 #+END_SRC
 
-#+RESULTS:
-| ~/Dropbox/org/home.org |
 
+* Ivy, Councel, Swiper
 
+#+BEGIN_SRC emacs-lisp
+  (use-package ivy
+    :ensure t
+    :config
+    (ivy-mode 1))
+  (require 'ivy)
+
+  (use-package counsel
+    :ensure t
+    :config
+    (counsel-mode 1))
+  (require 'counsel)
+
+  (use-package swiper
+    :ensure t
+    :config
+    (global-set-key "\C-s" 'swiper))
+#+END_SRC
+
+* Company mode
+
+#+BEGIN_SRC emacs-lisp
+  (use-package company
+    :ensure t
+    :config
+    (add-hook 'after-init-hook 'global-company-mode))
+  (require 'company)
+#+END_SRC
+
+* Projectile mode
+
+#+BEGIN_SRC emacs-lisp
+  (use-package projectile
+    :ensure t
+    :config
+    (projectile-mode 1)
+    (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
+  (require 'projectile)
+#+END_SRC
