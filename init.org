@@ -220,6 +220,12 @@ A hook can be installed to automatically tangle and byte-compile this Org file.
 
 * Org mode
   
+#+BEGIN_SRC emacs-lisp
+  (use-package org
+    :ensure t)
+
+#+END_SRC
+  
 ** Org bullets mode 
 #+BEGIN_SRC emacs-lisp
 
@@ -249,6 +255,16 @@ A hook can be installed to automatically tangle and byte-compile this Org file.
 
 #+END_SRC
 
+** Ox-Hugo 
+
+#+BEGIN_SRC emacs-lisp
+  (use-package ox-hugo
+    :ensure t
+    :after ox
+    :config)
+  (require 'ox-hugo)
+
+#+END_SRC
 
 * Ivy, Councel, Swiper
 
@@ -291,3 +307,4 @@ A hook can be installed to automatically tangle and byte-compile this Org file.
     (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
   (require 'projectile)
 #+END_SRC
+
