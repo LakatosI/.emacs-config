@@ -22,8 +22,6 @@ When this configuration is loaded for the first time, an initial *init.el* file 
 (org-babel-tangle)
 ;; load it
 (load-file (concat user-emacs-directory "init.el"))
-;; finally byte-compile it
-(byte-compile-file (concat user-emacs-directory "init.el"))
 
 #+END_SRC
 
@@ -50,7 +48,7 @@ A hook can be installed to automatically tangle and byte-compile this Org file.
       ;; Avoid running hooks when tangling.
       (let ((prog-mode-hook nil))
 	(org-babel-tangle)
-	(byte-compile-file (concat user-emacs-directory "init.el")))))
+	(load-file (concat user-emacs-directory "init.el")))))
 
   (add-hook 'after-save-hook 'tangle-init)
 #+END_SRC
@@ -308,3 +306,8 @@ A hook can be installed to automatically tangle and byte-compile this Org file.
   (require 'projectile)
 #+END_SRC
 
+* Magit
+#+BEGIN_SRC emacs-lisp
+  (use-package magit
+    :ensure t)
+#+END_SRC
