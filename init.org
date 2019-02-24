@@ -285,29 +285,3 @@ A hook can be installed to automatically tangle and byte-compile this Org file.
     (global-set-key "\C-s" 'swiper))
 #+END_SRC
 
-* Company mode
-
-#+BEGIN_SRC emacs-lisp
-  (use-package company
-    :ensure t
-    :config
-    (add-hook 'after-init-hook 'global-company-mode))
-  (require 'company)
-#+END_SRC
-
-* Projectile mode
-
-#+BEGIN_SRC emacs-lisp
-  (use-package projectile
-    :ensure t
-    :config
-    (projectile-mode 1)
-    (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
-  (require 'projectile)
-#+END_SRC
-
-* Magit
-#+BEGIN_SRC emacs-lisp
-  (use-package magit
-    :ensure t)
-#+END_SRC
