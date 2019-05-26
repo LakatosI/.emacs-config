@@ -1,3 +1,16 @@
+(setq load-path (cons (concat (file-name-as-directory user-emacs-directory) "lisp") load-path))
+(load "ill")
+
+(if (not (file-exists-p (ill-local-file "")))
+    (make-directory (ill-local-file "")))
+
+(setq custom-file (ill-local-file "custom.el"))
+(setq recentf-save-file (ill-local-file "recentf"))
+(setq auto-save-list-file-prefix (ill-local-file  "auto-save-list" "saves-"))
+
+(setq backup-directory-alist `(("." . ,(ill-local-file "backups"))))
+(setq package-user-dir (ill-local-file "elpa"))
+
 (require 'package)
 (setq package-enable-at-startup nil)
 (setq package-archives '(("org"   . "http://orgmode.org/elpa/")
@@ -14,18 +27,5 @@
 
 (require 'org)
 
-(org-babel-load-file (concat user-emacs-directory "README.org"))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (counsel ivy ox-hugo org-bullets evil-escape evil ace-window sudo-edit which-key try doom-themes exec-path-from-shell use-package))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(aw-leading-char-face ((t (:inherit ace-jump-face-foreground :height 3.0)))))
+(org-babel-load-file (ill-init-file "README.org"))
+(delete-file (ill-init-file "README.el"))

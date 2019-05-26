@@ -1,10 +1,2 @@
-*.elc
-elpa
-auto-save-list/
-recentf
-recentf~
-backups/
-projectile-bookmarks.eld
-
-abbrev_defs
-
+.DS_Store
+.local
