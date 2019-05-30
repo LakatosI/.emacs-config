@@ -54,20 +54,11 @@ based on ideas taken from multiple sources:
 #+BEGIN_SRC emacs-lisp
   (recentf-mode 1)
   (setq recentf-max-menu-items 25)
-  (global-set-key "\C-x\ \C-r" 'recentf-open-files)
+  ;(global-set-key "\C-x\ \C-r" 'recentf-open-files)
 
 #+END_SRC
 
 * General visual configs
-** Minimal UI
-#+BEGIN_SRC emacs-lisp
-  (tool-bar-mode   -1)
-  (tooltip-mode    -1)
-  (menu-bar-mode   -1)
-#+END_SRC
-
-#+RESULTS:
-
 ** Font and frame size
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'default-frame-alist '(font . "mononoki-12"))
@@ -96,8 +87,8 @@ based on ideas taken from multiple sources:
 #+RESULTS:
 
 ** Misc
-
    Show matching parens
+
 #+BEGIN_SRC emacs-lisp
   (setq show-paren-delay 0)
   (show-paren-mode 1)
@@ -108,21 +99,12 @@ based on ideas taken from multiple sources:
 
 * Help packages and misc
 #+BEGIN_SRC emacs-lisp
-
-   (use-package try
-	 :ensure t)
-
   (use-package which-key
     :ensure t
-    :init
+    :config
     (setq which-key-separator " ")
     (setq which-key-prefix-prefix "+")
     (which-key-mode 1))
-  (require 'which-key)
-
-
-   (use-package sudo-edit
-     :ensure t)
 #+END_SRC
 
 #+RESULTS:
@@ -163,53 +145,26 @@ based on ideas taken from multiple sources:
 #+BEGIN_SRC emacs-lisp
   (use-package evil-escape
     :ensure t
-    :init
-    (setq-default evil-escape-key-sequence "jk")
     :config
+    (setq evil-escape-delay 0.3)
+    (setq evil-escape-key-sequence "jk")
     (evil-escape-mode 1))
-  (require 'evil-escape)
 #+END_SRC
 
 #+RESULTS:
 : t
 
 * Org mode
-  
-#+BEGIN_SRC emacs-lisp
-  (use-package org
-    :ensure t)
-
-#+END_SRC
-  
 ** Org bullets mode 
-#+BEGIN_SRC emacs-lisp
 
+#+BEGIN_SRC emacs-lisp
   (use-package org-bullets
     :ensure t
     :config
     (add-hook 'org-mode-hook (lambda ()
 			       (org-bullets-mode 1))))
-  (require 'org-bullets)
 #+END_SRC
   
-** Configs
-#+BEGIN_SRC emacs-lisp
-  (setq org-todo-keywords
-	'((sequence "TODO(t)" "WAIT(w@/!)" "|" "DONE(d!)" "CANCELED(c@)")))
-
-  (define-key global-map "\C-cl" 'org-store-link)
-  (define-key global-map "\C-ca" 'org-agenda)
-  (setq org-log-done t)
-
-  (setq org-directory "~/org")
-  (setq org-mobile-inbox-for-pull "~/org/flagged.org")
-  (setq org-mobile-directory "~/Dropbox/Apps/MobileOrg")
-
-  ;;; (setq initial-buffer-choice "~/Dropbox/org/home.org")
-  (setq org-agenda-files (quote ("~/org/home.org")))
-
-#+END_SRC
-
 ** Ox-Hugo 
 
 #+BEGIN_SRC emacs-lisp
@@ -217,8 +172,6 @@ based on ideas taken from multiple sources:
     :ensure t
     :after ox
     :config)
-  (require 'ox-hugo)
-
 #+END_SRC
 
 * Ivy, Councel, Swiper
@@ -227,14 +180,14 @@ based on ideas taken from multiple sources:
   (use-package ivy
     :ensure t
     :config
+    (setq ivy-use-virtual-buffers t)
+    (setq ivy-count-format "(%d/%d) ")
     (ivy-mode 1))
-  (require 'ivy)
 
   (use-package counsel
     :ensure t
     :config
     (counsel-mode 1))
-  (require 'counsel)
 
   (use-package swiper
     :ensure t
@@ -275,3 +228,28 @@ based on ideas taken from multiple sources:
 	'("~/.emacs.d/snippets"))
     (yas-global-mode 1))
 #+END_SRC
+* Rust mode
+  #+BEGIN_SRC emacs-lisp
+    (use-package rust-mode
+      :ensure t
+      :config
+      (setq rust-format-on-save t))
+
+    (use-package flycheck-rust
+      :ensure t
+      :after rust-mode
+      :config
+      (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
+
+    (use-package lsp-mode
+      :ensure t
+      :hook (rust-mode . lsp)
+      )
+
+    (use-package lsp-ui
+      :ensure t
+      :commands lsp-ui-mode)
+    (use-package company-lsp
+      :ensure t
+      :commands company-lsp)
+  #+END_SRC
