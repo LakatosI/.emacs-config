@@ -19,6 +19,8 @@
 (defvar recentf-save-file)
 (setq recentf-save-file (ill-local-file "recentf"))
 (setq auto-save-list-file-prefix (ill-local-file  "auto-save-list" "saves-"))
+(setq eshell-directory-name (ill-local-file "eshell"))
+(setq bookmark-default-directory (ill-local-file "eshell"))
 
 (setq backup-directory-alist `(("." . ,(ill-local-file "backups"))))
 (setq package-user-dir (ill-local-file "elpa"))
