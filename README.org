@@ -265,3 +265,13 @@ based on ideas taken from multiple sources:
     :ensure t)
 
 #+END_SRC
+
+* Yasnippet
+#+BEGIN_SRC emacs-lisp
+  (use-package yasnippet
+    :ensure t
+    :config
+    (setq yas-snippet-dirs
+	'("~/.emacs.d/snippets"))
+    (yas-global-mode 1))
+#+END_SRC
