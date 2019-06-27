@@ -2,31 +2,12 @@
 #+AUTHOR: Istvan Lakatos
 #+PROPERTY: header-args :tangle yes
 
-
 * About
 My Emacs configuration files is written using Org mode, 
 based on ideas taken from multiple sources:
   - https://huytd.github.io/emacs/emacs-from-scratch.html
   - https://github.com/larstvei/dot-emacs
     
-** Reloading settings
-   
-   A hook can be installed to automatically tangle and load this Org file. 
-#+BEGIN_SRC emacs-lisp
-  (defun tangle-init ()
-    "If the current buffer is 'init.org' the code-blocks are
-  tangled, and the tangled file is compiled."
-    (when (equal (buffer-file-name)
-		 (expand-file-name (concat user-emacs-directory "README.org")))
-      ;; Avoid running hooks when tangling.
-      (let ((prog-mode-hook nil))
-	(org-babel-load-file (ill-init-file "README.org"))
-	(delete-file (ill-init-file "README.el"))
-	)))
-
-  (add-hook 'after-save-hook 'tangle-init)
-#+END_SRC
-
 * Environments and paths
 #+BEGIN_SRC emacs-lisp
   (use-package exec-path-from-shell
@@ -54,8 +35,6 @@ based on ideas taken from multiple sources:
 #+BEGIN_SRC emacs-lisp
   (recentf-mode 1)
   (setq recentf-max-menu-items 25)
-  ;(global-set-key "\C-x\ \C-r" 'recentf-open-files)
-
 #+END_SRC
 
 * General visual configs
@@ -253,3 +232,8 @@ based on ideas taken from multiple sources:
       :ensure t
       :commands company-lsp)
   #+END_SRC
+  
+* TRAMP config
+#+BEGIN_SRC emacs-lisp
+  (setq tramp-default-method "ssh")
+#+END_SRC
