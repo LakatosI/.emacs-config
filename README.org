@@ -237,3 +237,7 @@ based on ideas taken from multiple sources:
 #+BEGIN_SRC emacs-lisp
   (setq tramp-default-method "ssh")
 #+END_SRC
+* Eshell
+#+BEGIN_SRC emacs-lisp
+  (eshell)
+#+END_SRC
