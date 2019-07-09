@@ -241,3 +241,13 @@ based on ideas taken from multiple sources:
 #+BEGIN_SRC emacs-lisp
   (eshell)
 #+END_SRC
+
+* HTML and CSS
+#+BEGIN_SRC emacs-lisp
+  (use-package emmet-mode
+    :ensure t
+    :config
+    (add-hook 'sgml-mode-hook 'emmet-mode)
+    (add-hook 'css-mode-hook 'emmmet-mode)
+    (setq emmet-move-cursor-between-quotes t))
+#+END_SRC
