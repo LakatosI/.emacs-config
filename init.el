@@ -6,6 +6,13 @@
 
 ;;; Code:
 
+;; Start emacs in server mode
+(require 'server)
+;; Start a server if (server-running-p) does not return t (e.g. if it
+;; returns nil or :other)
+(or (eq (server-running-p) t)
+    (server-start))
+
 ;;; Load my utility library
 (setq load-path (cons (concat (file-name-as-directory user-emacs-directory) "lisp") load-path))
 (require 'ill)

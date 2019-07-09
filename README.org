@@ -9,7 +9,7 @@ based on ideas taken from multiple sources:
   - https://github.com/larstvei/dot-emacs
     
 * Environments and paths
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp	
   (use-package exec-path-from-shell
     :ensure t
     :config
@@ -40,7 +40,7 @@ based on ideas taken from multiple sources:
 * General visual configs
 ** Font and frame size
 #+BEGIN_SRC emacs-lisp
-  (add-to-list 'default-frame-alist '(font . "mononoki-12"))
+  (add-to-list 'default-frame-alist '(font . "mononoki-11"))
   (add-to-list 'default-frame-alist '(height . 24))
   (add-to-list 'default-frame-alist '(width . 80))
 #+END_SRC
@@ -136,7 +136,7 @@ based on ideas taken from multiple sources:
 * Org mode
 ** Org bullets mode 
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp-no
   (use-package org-bullets
     :ensure t
     :config
