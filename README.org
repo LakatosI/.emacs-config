@@ -251,3 +251,8 @@ based on ideas taken from multiple sources:
     (add-hook 'css-mode-hook 'emmmet-mode)
     (setq emmet-move-cursor-between-quotes t))
 #+END_SRC
+* Javascript
+
+#+BEGIN_SRC emacs-lisp
+  (setq js-indent-level 2)
+#+END_SRC
