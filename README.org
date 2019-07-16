@@ -134,6 +134,18 @@ based on ideas taken from multiple sources:
 : t
 
 * Org mode
+  #+BEGIN_SRC emacs-lisp
+    (use-package org
+      :ensure t
+      :config
+       (setq org-todo-keywords
+	     '((sequence "TODO(t)" "WAIT(w@/!)" "|" "DONE(d!)" "CANCELED(c@)")))
+   
+       (define-key global-map "\C-cl" 'org-store-link)
+       (define-key global-map "\C-ca" 'org-agenda)
+       (setq org-log-done t))
+
+  #+END_SRC
 ** Org bullets mode 
 
 #+BEGIN_SRC emacs-lisp-no
@@ -141,7 +153,9 @@ based on ideas taken from multiple sources:
     :ensure t
     :config
     (add-hook 'org-mode-hook (lambda ()
-			       (org-bullets-mode 1))))
+			       (org-bullets-mode 1)))
+			       
+)
 #+END_SRC
   
 ** Ox-Hugo 

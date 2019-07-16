@@ -35,8 +35,8 @@
 ;;; Setup package
 (require 'package)
 (setq package-enable-at-startup nil)
-(setq package-archives '(("org"   . "http://orgmode.org/elpa/")
-			("gnu"   . "http://elpa.gnu.org/packages/")
+(setq package-archives '(("org"   . "https://orgmode.org/elpa/")
+			("gnu"   . "https://elpa.gnu.org/packages/")
 			("melpa" . "https://melpa.org/packages/")))
 
 (package-initialize)
