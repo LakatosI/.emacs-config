@@ -15,7 +15,20 @@
 
 ;;; Load my utility library
 (setq load-path (cons (concat (file-name-as-directory user-emacs-directory) "lisp") load-path))
+(add-to-list 'load-path (concat (file-name-as-directory user-emacs-directory) "lisp"))
 (require 'ill)
+
+(add-to-list 'load-path (ill-init-file "external"))
+(add-to-list 'load-path (ill-init-file "external/evil-1.2.14"))
+(require 'evil)
+(evil-mode 1)
+
+(require 'undo-tree)
+(global-undo-tree-mode)
+
+(when (eq system-type 'darwin)
+    (setq mac-command-modifier 'meta)
+    (setq mac-option-modifier nil))
 
 ;;; Setup folder for instance-local files, caches, customizations, etc, that don't belong in
 ;;; the repo
@@ -39,16 +52,16 @@
 			("gnu"   . "https://elpa.gnu.org/packages/")
 			("melpa" . "https://melpa.org/packages/")))
 
-(package-initialize)
+;; (package-initialize)
 
-;;; Bootstrap 'use-package'
-(unless (package-installed-p 'use-package)
-    (package-refresh-contents)
-    (package-install 'use-package))
+;; ;;; Bootstrap 'use-package'
+;; (unless (package-installed-p 'use-package)
+;;     (package-refresh-contents)
+;;     (package-install 'use-package))
 
-(require 'org)
-(org-babel-load-file (ill-init-file "README.org"))
-(delete-file (ill-init-file "README.el"))
+;; (require 'org)
+;; ;(org-babel-load-file (ill-init-file "README.org"))
+;; ;(delete-file (ill-init-file "README.el"))
 
 (global-set-key (kbd "<C-tab>") 'complete-symbol)
 
