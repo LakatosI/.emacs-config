@@ -43,7 +43,7 @@
     (make-directory (ill-local-file "")))
 
 (setq custom-file (ill-local-file "custom.el"))
-(defvar recentf-save-file)
+(require 'recentf)
 (setq recentf-save-file (ill-local-file "recentf"))
 (setq auto-save-list-file-prefix (ill-local-file  "auto-save-list" "saves-"))
 (setq eshell-directory-name (ill-local-file "eshell"))
