@@ -13,15 +13,22 @@
 (or (eq (server-running-p) t)
     (server-start))
 
+
 ;;; Load my utility library
 (setq load-path (cons (concat (file-name-as-directory user-emacs-directory) "lisp") load-path))
 (add-to-list 'load-path (concat (file-name-as-directory user-emacs-directory) "lisp"))
 (require 'ill)
 
+(add-to-list 'Info-additional-directory-list (ill-init-file "docs"))
+
+
+
 (add-to-list 'load-path (ill-init-file "external"))
 (add-to-list 'load-path (ill-init-file "external/evil-1.2.14"))
 (require 'evil)
 (evil-mode 1)
+
+
 
 (require 'undo-tree)
 (global-undo-tree-mode)
@@ -58,6 +65,9 @@
 ;; (unless (package-installed-p 'use-package)
 ;;     (package-refresh-contents)
 ;;     (package-install 'use-package))
+
+;; (use-package evil
+;; 	     :ensure t)
 
 ;; (require 'org)
 ;; ;(org-babel-load-file (ill-init-file "README.org"))
