@@ -18,7 +18,7 @@
 (setq load-path (cons (concat (file-name-as-directory user-emacs-directory) "lisp") load-path))
 (add-to-list 'load-path (concat (file-name-as-directory user-emacs-directory) "lisp"))
 (require 'ill)
-
+(require 'info)
 (add-to-list 'Info-additional-directory-list (ill-init-file "docs"))
 
 
