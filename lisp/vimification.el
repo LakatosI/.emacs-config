@@ -13,4 +13,6 @@
 (global-undo-tree-mode)
 
 
+(global-set-key (kbd "C-x f") 'evil-goto-definition)
+
 (provide 'vimification)
