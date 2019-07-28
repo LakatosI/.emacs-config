@@ -8,3 +8,4 @@ File: dir,	Node: Top	This is the top of the INFO tree
 
 Evil
 * Evil mode: (evil).             Emacs vim emulation layer.
+* use-package mode: (use-package).             Package config management.

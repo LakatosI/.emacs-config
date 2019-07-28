@@ -10,8 +10,9 @@
 
 (load-theme 'solarized-light t)
 
-(require 'which-key)
-(which-key-mode)
+(use-package which-key
+  :config
+  (which-key-mode))
 
 (fset 'yes-or-no-p 'y-or-n-p)
 

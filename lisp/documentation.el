@@ -1,4 +1,7 @@
-(require 'info)
-(add-to-list 'Info-additional-directory-list (ill-init-file "docs"))
+
+(use-package info
+  :config
+  (add-to-list 'Info-additional-directory-list (ill-init-file "docs")))
+  
 
 (provide 'documentation)

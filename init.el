@@ -7,13 +7,6 @@
 ;;; Code:
 
 ;; Start emacs in server mode
-
-;; Added by Package.el.  This must come before configurations of
-;; installed packages.  Don't delete this line.  If you don't want it,
-;; just comment it out by adding a semicolon to the start of the line.
-;; You may delete these explanatory comments.
-(package-initialize)
-
 (require 'server)
 ;; Start a server if (server-running-p) does not return t (e.g. if it
 ;; returns nil or :other)
@@ -26,25 +19,23 @@
 (require 'ill)
 
 (require 'my-externals)
-
-(require 'documentation)
 (require 'environment-tweaks)
-
+(require 'documentation)
 (require 'memories)
 (require 'vimification)
 (require 'visuals)
 
-(require 'ivy)
+(use-package ivy
+  :commands ivy-mode
+  :config
+  (setq ivy-use-virtual-buffers t)
+  (setq ivy-count-format "(%d/%d) ")
+  (ivy-mode 1))
 
-(setq ivy-use-virtual-buffers t)
-(setq ivy-count-format "(%d/%d) ")
-(ivy-mode 1)
-
-(require 'counsel)
-(require 'swiper)
-(global-set-key "\C-s" 'swiper)
-
-
+(use-package counsel)
+(use-package swiper
+  :config
+  (global-set-key "\C-s" 'swiper))
 
 ;(require 'learning-elisp)
 (provide 'init)
