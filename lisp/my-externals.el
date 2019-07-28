@@ -7,5 +7,6 @@
 (add-to-list 'load-path (ill-init-file "external/emacs-which-key-3.3.1"))
 (add-to-list 'load-path (ill-init-file "external/evil-escape-3.14"))
 (add-to-list 'load-path (ill-init-file "external/swiper-0.12.0"))
+(add-to-list 'load-path (ill-init-file "external/use-package-2.4"))
 
 (provide 'my-externals)
