@@ -91,3 +91,14 @@ Projects, recent files, etc.
   (global-set-key "\C-s" 'swiper))
 #+END_SRC
 
+#+BEGIN_SRC emacs-lisp
+  (use-package yasnippet
+    :config
+    (setq yas-snippet-dirs
+	  (list
+	   (ill-init-file "snippets")
+	   ))
+    (yas-global-mode 1))
+
+#+END_SRC
+
