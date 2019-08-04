@@ -16,6 +16,9 @@
 			  "swiper-0.12.0"
 			  "use-package-2.4"
 			  "yasnippet-0.13.0"
+			  "rust-mode-0.4.0"
+			  "company-mode-0.9.10"
+			  "lsp-mode-6.0"
 			  ))
 
 (dolist (external my-externals-list load-path)

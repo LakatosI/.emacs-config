@@ -102,3 +102,32 @@ Projects, recent files, etc.
 
 #+END_SRC
 
+
+* Languages
+  
+** Company mode
+#+BEGIN_SRC emacs-lisp
+  (use-package company
+    :commands company-complete
+    :init
+    (add-hook 'after-init-hook 'global-company-mode)
+    (define-key evil-insert-state-map (kbd "C-SPC") 'company-complete)
+    :config
+    (setq company-tooltip-align-annotations t)
+    (setq company-minimum-prefix-length 1))
+#+END_SRC
+** LSP mode
+#+BEGIN_SRC emacs-lisp
+  (use-package lsp-mode
+    :ensure t
+    :after rust-mode
+    :commands lsp
+    :init
+    (add-hook 'rust-mode-hook 'lsp))
+#+END_SRC
+** Rust mode
+#+BEGIN_SRC emacs-lisp
+  (use-package rust-mode
+    :commands rust-mode
+    :mode "\\.rs\\'")
+#+END_SRC
