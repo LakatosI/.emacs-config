@@ -102,6 +102,16 @@ Projects, recent files, etc.
 
 #+END_SRC
 
+* Treemacs
+#+begin_src emacs-lisp
+  (use-package treemacs
+    :ensure t
+    :commands treemacs)
+
+  (use-package treemacs-evil
+    :ensure t
+    :after (treemacs))
+#+end_src
 
 * Languages
   
@@ -133,9 +143,9 @@ Projects, recent files, etc.
 
   (use-package company-lsp
     :ensure t
-    :after (:all company lisp)
+    :after (:all company lsp)
     :config
-    (push 'company-lisp company-backends))
+    (push 'company-lsp company-backends))
 
   (use-package lsp-ui
     :ensure t
