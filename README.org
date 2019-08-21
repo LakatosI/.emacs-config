@@ -113,6 +113,13 @@ Projects, recent files, etc.
     :after (treemacs))
 #+end_src
 
+* Org mode configs
+#+begin_src emacs-lisp
+  (use-package ox-hugo
+    :ensure t
+    :after ox)
+  
+#+end_src
 * Languages
   
 ** Company mode
