@@ -1,12 +1,29 @@
-(add-to-list 'load-path (ill-init-file "external"))
-(add-to-list 'load-path (ill-init-file "external/evil-1.2.14"))
-(add-to-list 'load-path (ill-init-file "external/exec-path-from-shell-1.12"))
-(add-to-list 'load-path (ill-init-file "external/solarized-emacs-1.3.0"))
 (add-to-list 'custom-theme-load-path (ill-init-file "external/solarized-emacs-1.3.0"))
 
-(add-to-list 'load-path (ill-init-file "external/emacs-which-key-3.3.1"))
-(add-to-list 'load-path (ill-init-file "external/evil-escape-3.14"))
-(add-to-list 'load-path (ill-init-file "external/swiper-0.12.0"))
-(add-to-list 'load-path (ill-init-file "external/use-package-2.4"))
+(add-to-list 'load-path (ill-init-file "external"))
+
+
+
+(defvar my-externals-list ()
+  "A list of folders from \"external\" to add to the loadpath during init")
+
+(setq my-externals-list '(
+			  "evil-1.2.14"
+			  "exec-path-from-shell-1.12"
+			  "solarized-emacs-1.3.0"
+			  "emacs-which-key-3.3.1"
+			  "evil-escape-3.14"
+			  "swiper-0.12.0"
+			  "use-package-2.4"
+			  "yasnippet-0.13.0"
+			  "rust-mode-0.4.0"
+			  "company-mode-0.9.10"
+			  "lsp-mode-6.0"
+			  ))
+
+(dolist (external my-externals-list load-path)
+  (add-to-list 'load-path (ill-init-file "external" external)))
+	
+
 
 (provide 'my-externals)

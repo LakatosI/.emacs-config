@@ -8,265 +8,167 @@ based on ideas taken from multiple sources:
   - https://huytd.github.io/emacs/emacs-from-scratch.html
   - https://github.com/larstvei/dot-emacs
     
-* Environments and paths
-#+BEGIN_SRC emacs-lisp	
-  (use-package exec-path-from-shell
-    :ensure t
-    :config
-    (when (memq window-system '(mac ns x))
-      (exec-path-from-shell-initialize)))
+** My [[file:init.el][init.el]] file
+   
+   In this initial configuration file I set up my external paths and
+utility libraries that I reference in the rest of this Org config. 
 
-  (require 'exec-path-from-shell)
-
-  (when (eq system-type 'darwin)
-    (setq mac-command-modifier 'meta)
-    (setq mac-option-modifier nil))
+* Documentation
+  Set up additional info files
+#+BEGIN_SRC emacs-lisp
+(use-package info
+  :config
+  (add-to-list 'Info-additional-directory-list (ill-init-file "docs")))
 #+END_SRC
 
-** Ansi-term for Windows
-   
+* Memories
+Projects, recent files, etc.
 #+BEGIN_SRC emacs-lisp
-  (setq explicit-bash.exe-args '("--noediting" "--login" "-i"))
-  (add-hook 'comint-output-filter-functions 'comint-strip-ctrl-m)
-#+END_SRC
-
-** Recent files
-   
-#+BEGIN_SRC emacs-lisp
-  (recentf-mode 1)
+(use-package recentf
+  :config
+  (setq recentf-save-file (ill-local-file "recentf"))
   (setq recentf-max-menu-items 25)
+  (recentf-mode 1))
 #+END_SRC
 
-* General visual configs
-** Font and frame size
+* Vimification
 #+BEGIN_SRC emacs-lisp
-  (add-to-list 'default-frame-alist '(font . "mononoki-11"))
-  (add-to-list 'default-frame-alist '(height . 24))
-  (add-to-list 'default-frame-alist '(width . 80))
-#+END_SRC
-
-** Theme
-#+BEGIN_SRC emacs-lisp
-  ;; Theme
-  (use-package doom-themes
-	:ensure t
-	:config
-	(load-theme 'doom-one t))
-#+END_SRC
-
-** Match titlebar color on MacOS
-
-#+BEGIN_SRC emacs-lisp
-  (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
-  (add-to-list 'default-frame-alist '(ns-appearance . dark))
-  (setq ns-use-proxy-icon  nil)
-  (setq frame-title-format nil)
-#+END_SRC
-
-#+RESULTS:
-
-** Misc
-   Show matching parens
-
-#+BEGIN_SRC emacs-lisp
-  (setq show-paren-delay 0)
-  (show-paren-mode 1)
-#+END_SRC
-
-#+RESULTS:
-: t
-
-* Help packages and misc
-#+BEGIN_SRC emacs-lisp
-  (use-package which-key
-    :ensure t
-    :config
-    (setq which-key-separator " ")
-    (setq which-key-prefix-prefix "+")
-    (which-key-mode 1))
-#+END_SRC
-
-#+RESULTS:
-  
-** Misc settings
-#+BEGIN_SRC emacs-lisp
-  (defalias 'list-buffers 'ibuffer)
-
-  (use-package ace-window
-      :ensure t
-      :init
-      (progn
-          (global-set-key [remap other-window] 'ace-window)
-          (custom-set-faces
-          '(aw-leading-char-face
-              ((t (:inherit ace-jump-face-foreground :height 3.0))))) 
-          ))
-
-  (fset 'yes-or-no-p 'y-or-n-p)
-  (global-set-key (kbd "<f5>") 'revert-buffer)
-#+END_SRC
-
-#+RESULTS:
-: revert-buffer
-
-
-* Evil mode
-#+BEGIN_SRC emacs-lisp
+(use-package evil
+  :init
   (setq evil-want-C-i-jump nil)
-  (use-package evil
-    :ensure t
-    :config
-    (evil-mode 1))
-
-#+END_SRC
-
-** Evil-Escape mode
-#+BEGIN_SRC emacs-lisp
-  (use-package evil-escape
-    :ensure t
-    :config
-    (setq evil-escape-delay 0.3)
-    (setq evil-escape-key-sequence "jk")
-    (evil-escape-mode 1))
-#+END_SRC
-
-#+RESULTS:
-: t
-
-* Org mode
-  #+BEGIN_SRC emacs-lisp
-    (use-package org
-      :ensure t
-      :config
-       (setq org-todo-keywords
-	     '((sequence "TODO(t)" "WAIT(w@/!)" "|" "DONE(d!)" "CANCELED(c@)")))
-   
-       (define-key global-map "\C-cl" 'org-store-link)
-       (define-key global-map "\C-ca" 'org-agenda)
-       (setq org-log-done t))
-
-  #+END_SRC
-** Org bullets mode 
-
-#+BEGIN_SRC emacs-lisp-no
-  (use-package org-bullets
-    :ensure t
-    :config
-    (add-hook 'org-mode-hook (lambda ()
-			       (org-bullets-mode 1)))
-			       
-)
-#+END_SRC
+  :config
   
-** Ox-Hugo 
+  (evil-mode 1))
+
+(use-package undo-tree
+  :config
+  (global-undo-tree-mode))
+
+(use-package evil-escape
+  :after evil
+  :config
+  (setq evil-escape-delay 0.3)
+  (setq evil-escape-key-sequence "jk")
+  (evil-escape-mode 1))
+  
+#+END_SRC
+    
+
+* Visuals
+  #+BEGIN_SRC emacs-lisp
+(add-to-list 'default-frame-alist '(font . "mononoki-11"))
+(add-to-list 'default-frame-alist '(height . 40))
+(add-to-list 'default-frame-alist '(width . 180))
+(add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+(add-to-list 'default-frame-alist '(ns-appearance . dark))
+(setq ns-use-proxy-icon  nil)
+(setq frame-title-format nil)
+(setq show-paren-delay 0)
+(show-paren-mode 1)
+
+(load-theme 'solarized-light t)
+
+(use-package which-key
+  :config
+  (which-key-mode))
+
+(fset 'yes-or-no-p 'y-or-n-p)
+  #+END_SRC
+
+  
+* Completions
+#+BEGIN_SRC emacs-lisp
+(use-package ivy
+  :commands ivy-mode
+  :config
+  (setq ivy-use-virtual-buffers t)
+  (setq ivy-count-format "(%d/%d) ")
+  (ivy-mode 1))
+
+(use-package counsel)
+(use-package swiper
+  :config
+  (global-set-key "\C-s" 'swiper))
+#+END_SRC
 
 #+BEGIN_SRC emacs-lisp
+  (use-package yasnippet
+    :config
+    (setq yas-snippet-dirs
+	  (list
+	   (ill-init-file "snippets")
+	   ))
+    (yas-global-mode 1))
+
+#+END_SRC
+
+* Treemacs
+#+begin_src emacs-lisp
+  (use-package treemacs
+    :ensure t
+    :commands treemacs)
+
+  (use-package treemacs-evil
+    :ensure t
+    :after (treemacs))
+#+end_src
+
+* Org mode configs
+#+begin_src emacs-lisp
   (use-package ox-hugo
     :ensure t
-    :after ox
-    :config)
-#+END_SRC
-
-* Ivy, Councel, Swiper
-
+    :after ox)
+  
+#+end_src
+* Languages
+  
+** Company mode
 #+BEGIN_SRC emacs-lisp
-  (use-package ivy
-    :ensure t
+  (use-package company
+    :commands company-complete
+    :init
+    (add-hook 'after-init-hook 'global-company-mode)
+    (define-key evil-insert-state-map (kbd "C-SPC") 'company-complete)
     :config
-    (setq ivy-use-virtual-buffers t)
-    (setq ivy-count-format "(%d/%d) ")
-    (ivy-mode 1))
-
-  (use-package counsel
-    :ensure t
-    :config
-    (counsel-mode 1))
-
-  (use-package swiper
-    :ensure t
-    :config
-    (global-set-key "\C-s" 'swiper))
+    (setq company-tooltip-align-annotations t)
+    (setq company-minimum-prefix-length 1))
 #+END_SRC
-
-
-* Syntax checking, completion, etc 
+** Flycheck 
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck
     :ensure t
-    :config
-    (global-flycheck-mode)
-    )
-
-  (use-package company
+    :init (global-flycheck-mode))
+#+END_SRC
+** LSP mode
+#+BEGIN_SRC emacs-lisp
+  (use-package lsp-mode
     :ensure t
-    :config
-    (global-company-mode)
-    )
+    :after rust-mode
+    :commands lsp
+    :init
+    (add-hook 'rust-mode-hook 'lsp))
 
-#+END_SRC
-
-* Git
-#+BEGIN_SRC emacs-lisp
-  (use-package magit
-    :ensure t)
-
-#+END_SRC
-
-* Yasnippet
-#+BEGIN_SRC emacs-lisp
-  (use-package yasnippet
+  (use-package company-lsp
     :ensure t
+    :after (:all company lsp)
     :config
-    (setq yas-snippet-dirs
-	'("~/.emacs.d/snippets"))
-    (yas-global-mode 1))
-#+END_SRC
-* Rust mode
-  #+BEGIN_SRC emacs-lisp
-    (use-package rust-mode
-      :ensure t
-      :config
-      (setq rust-format-on-save t))
+    (push 'company-lsp company-backends))
 
-    (use-package flycheck-rust
-      :ensure t
-      :after rust-mode
-      :config
-      (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
-
-    (use-package lsp-mode
-      :ensure t
-      :hook (rust-mode . lsp)
-      )
-
-    (use-package lsp-ui
-      :ensure t
-      :commands lsp-ui-mode)
-    (use-package company-lsp
-      :ensure t
-      :commands company-lsp)
-  #+END_SRC
-  
-* TRAMP config
-#+BEGIN_SRC emacs-lisp
-  (setq tramp-default-method "ssh")
-#+END_SRC
-* Eshell
-#+BEGIN_SRC emacs-lisp
-  (eshell)
-#+END_SRC
-
-* HTML and CSS
-#+BEGIN_SRC emacs-lisp
-  (use-package emmet-mode
+  (use-package lsp-ui
     :ensure t
+    :after (lsp flycheck)
     :config
-    (add-hook 'sgml-mode-hook 'emmet-mode)
-    (add-hook 'css-mode-hook 'emmmet-mode)
-    (setq emmet-move-cursor-between-quotes t))
+    (add-hook 'lsp-mode-hook 'lsp-ui-mode))
 #+END_SRC
-* Javascript
-
+** Rust mode
 #+BEGIN_SRC emacs-lisp
-  (setq js-indent-level 2)
+  (use-package rust-mode
+    :commands rust-mode
+    :mode "\\.rs\\'")
+
+  (use-package flycheck-rust
+    :ensure t
+    :after (flycheck rust-mode)
+    :config
+    (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
 #+END_SRC

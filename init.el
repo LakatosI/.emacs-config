@@ -20,22 +20,8 @@
 
 (require 'my-externals)
 (require 'environment-tweaks)
-(require 'documentation)
-(require 'memories)
-(require 'vimification)
-(require 'visuals)
 
-(use-package ivy
-  :commands ivy-mode
-  :config
-  (setq ivy-use-virtual-buffers t)
-  (setq ivy-count-format "(%d/%d) ")
-  (ivy-mode 1))
-
-(use-package counsel)
-(use-package swiper
-  :config
-  (global-set-key "\C-s" 'swiper))
+(org-babel-load-file (ill-init-file "README.org"))
 
 ;(require 'learning-elisp)
 (provide 'init)
