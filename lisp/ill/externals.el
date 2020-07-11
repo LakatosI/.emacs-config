@@ -19,6 +19,8 @@
 			  "rust-mode-0.4.0"
 			  "company-mode-0.9.10"
 			  "lsp-mode-6.0"
+			  "general-20200516.50"
+			  "which-key-20200702.219"
 			  ))
 
 (dolist (external my-externals-list load-path)

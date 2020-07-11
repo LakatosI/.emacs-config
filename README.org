@@ -53,6 +53,36 @@ Projects, recent files, etc.
   
 #+END_SRC
     
+* Keybindings
+#+BEGIN_SRC emacs-lisp
+  (use-package which-key
+    :config
+    ;; Allow C-h to trigger which-key before it is done automatically
+    (setq which-key-show-early-on-C-h t)
+    ;; make sure which-key doesn't show normally but refreshes quickly after it is
+    ;; triggered.
+    (setq which-key-idle-delay 10000)
+    (setq which-key-idle-secondary-delay 0.05)
+    (which-key-mode))
+
+  (use-package general
+    :config
+    (general-define-key
+     "C-s" 'swiper
+     "M-x" 'counsel-M-x)
+
+    (general-define-key
+     :states '(normal visual insert emacs)
+     :prefix "SPC"
+     :non-normal-prefix "C-SPC"
+     "f" '(:ignore t :which-key "Files") ;File operations
+     "ff" '(counsel-find-file :which-key "Find file")
+     "fr" '(counsel-recentf :which-key "Search recent files")
+     ))
+#+END_SRC
+
+#+RESULTS:
+: t
 
 * Visuals
   #+BEGIN_SRC emacs-lisp
@@ -87,9 +117,10 @@ Projects, recent files, etc.
 
 (use-package counsel)
 (use-package swiper
-  :config
-  (global-set-key "\C-s" 'swiper))
+    :commands (swiper))
 #+END_SRC
+
+#+RESULTS:
 
 #+BEGIN_SRC emacs-lisp
   (use-package yasnippet
