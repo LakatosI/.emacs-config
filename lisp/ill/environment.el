@@ -1,15 +1,3 @@
-(setq package-user-dir (ill-local-file "elpa"))
-
-;;; Setup package
-(require 'package)
-(setq package-enable-at-startup nil)
-(setq package-archives '(("org"   . "https://orgmode.org/elpa/")
-			("gnu"   . "https://elpa.gnu.org/packages/")
-			("melpa" . "https://melpa.org/packages/")))
-
-(package-initialize)
-
-(require 'use-package)
 
 ;; Ensure everything is okay on a mac
 
@@ -35,4 +23,4 @@
 
 (setq backup-directory-alist `(("." . ,(ill-local-file "backups"))))
 
-(provide 'environment-tweaks)
+(provide 'ill/environment)

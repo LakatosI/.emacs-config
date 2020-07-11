@@ -6,4 +6,4 @@
 (defun ill-local-file (&rest file-name)
     (apply 'ill-init-file  ".local"  file-name))
 
-(provide 'ill)
+(provide 'ill/files)

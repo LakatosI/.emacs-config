@@ -16,14 +16,13 @@
 
 ;;; Load my utility library
 (add-to-list 'load-path (concat (file-name-as-directory user-emacs-directory) "lisp"))
-(require 'ill)
 
-(require 'my-externals)
-(require 'environment-tweaks)
+(require 'ill/prelude)
 
 (org-babel-load-file (ill-init-file "README.org"))
 
-;(require 'learning-elisp)
+(delete-file (ill-init-file "README.el"))
+
 (provide 'init)
 ;;; init.el ends here
 
