@@ -78,11 +78,15 @@ Projects, recent files, etc.
 
      ;; Simple commands
      "SPC" '(avy-goto-char-timer :which-key "go to sequence")
+     
+     ;; Projects
+     "p" '(projectile-command-map :which-key "Projectile")
 
      ;;File operations
      "f" '(:ignore t :which-key "Files") 
      "ff" '(counsel-find-file :which-key "Find file")
      "fr" '(counsel-recentf :which-key "Search recent files")
+     "ft" '(treemacs :which-key "Treemacs")
      
      ;;Windows
      "w" '(:ignore t :which-key "Windows") 
@@ -122,20 +126,36 @@ Projects, recent files, etc.
 * Navigation  
 #+BEGIN_SRC emacs-lisp
   (use-package avy)
+
+  (use-package treemacs
+    :commands treemacs
+    :ensure t)
+
+  (use-package treemacs-evil
+    :after (treemacs)
+    :ensure t)
+
+  (use-package treemacs-projectile
+    :after (treemacs)
+    :ensure t)
 #+END_SRC
+
+#+RESULTS:
+
 * Completions
 #+BEGIN_SRC emacs-lisp
-(use-package ivy
-  :commands ivy-mode
+  (use-package ivy
+    :commands ivy-mode
   
-  :config
-  (setq ivy-use-virtual-buffers t)
-  (setq ivy-count-format "(%d/%d) ")
-  (ivy-mode 1))
+    :config
+    (setq ivy-use-virtual-buffers t)
+    (setq ivy-count-format "(%d/%d) ")
+    (ivy-mode 1))
 
-(use-package counsel)
-(use-package swiper
-    :commands (swiper))
+  (use-package counsel
+    :config (counsel-mode))
+  (use-package swiper
+      :commands (swiper))
 #+END_SRC
 
 #+RESULTS:
@@ -147,7 +167,10 @@ Projects, recent files, etc.
     (global-flycheck-mode))
 
 
-  (use-package company :ensure t)
+  (use-package company :ensure t
+    :config
+    (add-hook 'emacs-lisp-mode-hook (lambda ()
+				     (company-mode-on))))
 
   (use-package lsp-mode :commands lsp
     :ensure t)
@@ -178,6 +201,31 @@ Projects, recent files, etc.
     (yas-global-mode 1))
 
 #+END_SRC
+
+* Projects
+#+BEGIN_SRC emacs-lisp
+  (use-package projectile
+    :ensure t
+    :init
+    (setq projectile-enable-idle-timer t)
+    (setq projectile-idle-timer-seconds 5)
+    :config
+    (setq projectile-enable-caching t)
+    (setq projectile-completion-system 'ivy)
+    (add-hook 'projectile-idle-timer-hook (lambda () (message "Projectile idle timer run")))
+    (add-hook 'projectile-idle-timer-hook #'ill/bazel-gen-compile-commands)
+    (setq projectile-enable-idle-timer t))
+
+  (use-package counsel-projectile
+    :ensure t
+    :after (counsel projectile)
+    :config
+    (counsel-projectile-mode))
+
+#+END_SRC
+
+#+RESULTS:
+: t
 
 * Languages
   #+BEGIN_SRC emacs-lisp

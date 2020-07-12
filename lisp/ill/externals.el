@@ -2,8 +2,6 @@
 
 (add-to-list 'load-path (ill-init-file "external"))
 
-
-
 (defvar my-externals-list ()
   "A list of folders from \"external\" to add to the loadpath during init")
 

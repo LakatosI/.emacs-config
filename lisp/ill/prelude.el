@@ -6,4 +6,6 @@
 (require 'ill/packages)
 (require 'ill/environment)
 
+(require 'ill/bazel)
+
 (provide 'ill/prelude)
