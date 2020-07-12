@@ -16,11 +16,12 @@
 			  "swiper-0.12.0"
 			  "use-package-2.4"
 			  "yasnippet-0.13.0"
-			  "rust-mode-0.4.0"
-			  "company-mode-0.9.10"
+			  "company-20200616.2354"
 			  "lsp-mode-6.0"
 			  "general-20200516.50"
 			  "which-key-20200702.219"
+			  "avy-20200624.1148"
+			  "ace-window-20200606.1259"
 			  ))
 
 (dolist (external my-externals-list load-path)
