@@ -8,9 +8,11 @@
 (defun ill/bazel-gen-compile-commands ()
   "Command to generate compile_commands.json for ILL project"
   (interactive)
-  (ill/bazel--generate-compile-commands)
-  (lsp-foreach-workspace
-   (lsp-workspace-restart it))
-  )
+  (let ((in-project-query (projectile-project-root))
+	(ill-project-query (file-exists-p (ill/compose-file-path (projectile-project-root) ".ill_workspace"))))
+    (when (and in-project-query ill-project-query)
+      (ill/bazel--generate-compile-commands)
+      (lsp-foreach-workspace
+       (lsp-workspace-restart it)))))
 
 (provide 'ill/bazel)

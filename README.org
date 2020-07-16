@@ -209,10 +209,11 @@ Projects, recent files, etc.
     :init
     (setq projectile-enable-idle-timer t)
     (setq projectile-idle-timer-seconds 5)
+    (setq projectile-indexing-method 'alien)
     :config
     (setq projectile-enable-caching t)
     (setq projectile-completion-system 'ivy)
-    (add-hook 'projectile-idle-timer-hook (lambda () (message "Projectile idle timer run")))
+    (setq projectile-idle-timer-hook nil)
     (add-hook 'projectile-idle-timer-hook #'ill/bazel-gen-compile-commands)
     (setq projectile-enable-idle-timer t))
 
