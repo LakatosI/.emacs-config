@@ -173,7 +173,9 @@ Projects, recent files, etc.
 				     (company-mode-on))))
 
   (use-package lsp-mode :commands lsp
-    :ensure t)
+    :ensure t
+    :config
+    (require 'lsp-clients))
 
   (use-package lsp-ivy
     :ensure t
@@ -230,6 +232,8 @@ Projects, recent files, etc.
 
 * Languages
   #+BEGIN_SRC emacs-lisp
+  #+END_SRC
+  #+BEGIN_SRC emacs-lisp-nope
     (use-package ccls
       :ensure t
       :config
