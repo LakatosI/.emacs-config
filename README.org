@@ -109,7 +109,7 @@ Projects, recent files, etc.
 (setq show-paren-delay 0)
 (show-paren-mode 1)
 
-(load-theme 'solarized-light t)
+(load-theme 'solarized-dark t)
 
 (use-package which-key
   :config

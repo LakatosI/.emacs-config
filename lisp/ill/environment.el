@@ -16,7 +16,8 @@
     (make-directory (ill-local-file "")))
 
 (setq custom-file (ill-local-file "custom.el"))
-(load custom-file)
+(when (file-exists-p custom-file)
+  (load custom-file))
 
 (setq auto-save-list-file-prefix (ill-local-file  "auto-save-list" "saves-"))
 (setq eshell-directory-name (ill-local-file "eshell"))
