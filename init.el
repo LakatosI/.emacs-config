@@ -13,7 +13,6 @@
 (or (eq (server-running-p) t)
     (server-start))
 
-
 ;;; Load my utility library
 (add-to-list 'load-path (concat (file-name-as-directory user-emacs-directory) "lisp"))
 

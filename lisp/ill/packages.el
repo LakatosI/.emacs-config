@@ -1,14 +1,17 @@
-(setq package-user-dir (ill-local-file "elpa"))
+(defvar bootstrap-version)
 
-;;; Setup package
-(require 'package)
-(setq package-enable-at-startup nil)
-(setq package-archives '(("org"   . "https://orgmode.org/elpa/")
-			("gnu"   . "https://elpa.gnu.org/packages/")
-			("melpa" . "https://melpa.org/packages/")))
+(setq straight-use-package-by-default t)
 
-(package-initialize)
-
-(require 'use-package)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
 
 (provide 'ill/packages)

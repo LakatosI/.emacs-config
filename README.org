@@ -128,16 +128,13 @@ Projects, recent files, etc.
   (use-package avy)
 
   (use-package treemacs
-    :commands treemacs
-    :ensure t)
+    :commands treemacs)
 
   (use-package treemacs-evil
-    :after (treemacs)
-    :ensure t)
+    :after (treemacs))
 
   (use-package treemacs-projectile
-    :after (treemacs)
-    :ensure t)
+    :after (treemacs))
 #+END_SRC
 
 #+RESULTS:
@@ -162,32 +159,27 @@ Projects, recent files, etc.
 
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck
-    :ensure t
     :config
     (global-flycheck-mode))
 
 
-  (use-package company :ensure t
+  (use-package company 
     :config
     (add-hook 'emacs-lisp-mode-hook (lambda ()
 				     (company-mode-on))))
 
   (use-package lsp-mode :commands lsp
-    :ensure t
     :config
     (require 'lsp-clients))
 
   (use-package lsp-ivy
-    :ensure t
     :after (lsp-mode))
 
   (use-package lsp-ui
-    :ensure t
     :after (lsp-mode)
     :commands lsp-ui-mode)
 
   (use-package company-lsp
-    :ensure t
     :commands company-lsp
     :config
     (push 'company-lsp company-backends))
@@ -207,7 +199,6 @@ Projects, recent files, etc.
 * Projects
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
-    :ensure t
     :init
     (setq projectile-enable-idle-timer t)
     (setq projectile-idle-timer-seconds 5)
@@ -220,7 +211,6 @@ Projects, recent files, etc.
     (setq projectile-enable-idle-timer t))
 
   (use-package counsel-projectile
-    :ensure t
     :after (counsel projectile)
     :config
     (counsel-projectile-mode))
@@ -235,7 +225,6 @@ Projects, recent files, etc.
   #+END_SRC
   #+BEGIN_SRC emacs-lisp-nope
     (use-package ccls
-      :ensure t
       :config
       (setq lsp-prefer-flymake nil)
       (setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-cppcheck c/c++-gcc))
