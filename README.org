@@ -109,7 +109,8 @@ Projects, recent files, etc.
 (setq show-paren-delay 0)
 (show-paren-mode 1)
 
-(load-theme 'solarized-dark t)
+(use-package solarized-theme
+  :config (load-theme 'solarized-dark t))
 
 (use-package which-key
   :config
@@ -168,9 +169,7 @@ Projects, recent files, etc.
     (add-hook 'emacs-lisp-mode-hook (lambda ()
 				     (company-mode-on))))
 
-  (use-package lsp-mode :commands lsp
-    :config
-    (require 'lsp-clients))
+  (use-package lsp-mode :commands lsp)
 
   (use-package lsp-ivy
     :after (lsp-mode))
@@ -231,3 +230,7 @@ Projects, recent files, etc.
       :hook ((c-mode c++-mode objc-mode) .
 	     (lambda () (require 'ccls) (lsp))))
   #+END_SRC
+  
+#+BEGIN_SRC emacs-lisp
+  (use-package racket-mode)
+#+END_SRC
